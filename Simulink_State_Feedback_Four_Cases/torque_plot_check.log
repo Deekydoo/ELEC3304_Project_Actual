@@ -1,0 +1,25 @@
+Shared state-feedback plant: mass 0.7444 kg; trim 3.35e-13; pole-placement radius 0.980199; observer radius 0.731466.
+Running 1. No outer balance controller
+Running 2. State feedback + observer
+Running 3. Controller + constant sensor bias
+Running 4. Controller + constant and sinusoidal sensor errors
+Running 1. No outer balance controller
+{Error using interp1>reshapeAndSortXandV (line 381)
+X and V must be of the same length.
+
+Error in interp1 (line 55)
+    [X,V,orig_size_v] = reshapeAndSortXandV(X,V);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_four_cases>clipping_times (line 76)
+u=interp1(ut,u,t,'previous','extrap');
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_four_cases (line 51)
+    results.(keys{j}).clipping=clipping_times(out,r,plant,j==1);
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+[Warning: Save contents of model workspace before closing?
+
+ The model workspace's data source is file "".] 
+[Warning: Save contents of model workspace before closing?
+
+ The model workspace's data source is file "".] 

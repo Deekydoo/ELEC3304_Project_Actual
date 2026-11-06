@@ -1,0 +1,16 @@
+Shared state-feedback plant: mass 0.7444 kg; trim 3.35e-13; pole-placement radius 0.980199; observer radius 0.731466.
+Running 1. No outer balance controller
+Running 2. State feedback + observer
+Running 3. Controller + constant sensor bias
+Running 4. Controller + constant and sinusoidal sensor errors
+Running 1. No outer balance controller
+Running 2. State feedback + observer
+Running 3. Controller + constant sensor bias
+Running 4. Controller + constant and sinusoidal sensor errors
+Plot export and nonlinear routing checks passed.
+[Warning: Save contents of model workspace before closing?
+
+ The model workspace's data source is file "".] 
+[Warning: Save contents of model workspace before closing?
+
+ The model workspace's data source is file "".] 

@@ -1,0 +1,17 @@
+Shared state-feedback plant: mass 0.7444 kg; trim 3.35e-13; pole-placement radius 0.980199; observer radius 0.731466.
+
+The plant is already controllable; feedback makes the closed loop stable.
+Continuous balance-plant PBH rank: 33 / 33 (minimum singular value 0.170925).
+Selected sampled subsystem PBH ranks: 3 / 3 before; 3 / 3 after feedback.
+Open-loop unstable pole: +3.135824 /s.
+Existing assigned decay rates: 6 1 1.2 /s.
+Actual sampled closed-loop spectral radius: 0.980198673 < 1.
+Observer error spectral radius: 0.731465970 < 1.
+The s-plane closed-loop values below are log(z)/Ts equivalents.
+    OpenPole_s    ClosedEquivalentPole_s    OpenPole_z    ClosedPole_z
+    __________    ______________________    __________    ____________
+
+       3.1358                -1               1.0647         0.9802   
+     -0.45512              -1.2              0.99094        0.97629   
+      -1.0484                -6              0.97925        0.88692   
+
