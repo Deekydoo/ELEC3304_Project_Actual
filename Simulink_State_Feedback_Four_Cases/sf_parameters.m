@@ -32,15 +32,14 @@ cfg.robot.torsoDimensions=[0.09;0.1;0.14];
 cfg.robot.imuOffset=[0;0;0.05];
 cfg.robot.torsoCOM=[0;0;0.055];
 cfg.robot.carrierDimensions=[0.025;0.025;0.02];
-% Official robot_walk.xml, commit 2eae1d4519a5456110fe733426d14d06fc99f566.
-% Upper body merges trunk + neck + neck_pitch + yaw_roll_motion + head.
-% Hip-yaw/hip-roll bodies are merged into each carrier. Feet are averaged.
-% Total = 0.7443611 kg; geometry and box inertias remain simplified.
-cfg.robot.massTorso=0.5045154;
-cfg.robot.massCarrier=0.0287231;
-cfg.robot.massThigh=0.04315;
-cfg.robot.massShin=0.0215844;
-cfg.robot.massFoot=0.02646535;
+% Configuration 1 masses supplied in the mass-comparison image (kg).
+% One torso and two of each leg component give a total of 0.737243 kg.
+% Geometry and box inertias remain simplified; inertias are recomputed.
+cfg.robot.massTorso=0.479151;
+cfg.robot.massCarrier=0.029230;
+cfg.robot.massThigh=0.048207;
+cfg.robot.massShin=0.021584;
+cfg.robot.massFoot=0.030025;
 cfg.robot.standingJointDeg=[0;-20;40;-20;0;-20;40;-20];
 
 % Internal position servo model: SI gains, lag, damping and command limits.
