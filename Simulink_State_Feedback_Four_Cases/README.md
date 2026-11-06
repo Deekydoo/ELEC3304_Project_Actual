@@ -226,3 +226,39 @@ support. Tested with R2026b. Keep helpers beside the models and change MATLAB's
 Current Folder here before calling run_simulations; the PID folder has a
 different function of that name. Nonlinear contact simulations can take several
 minutes. Earlier LQR results/pole lists do not describe this revised controller.
+
+## Batch push figures
+Run `test_files` from this folder to simulate forward and sideways pushes of
+1, 5 and 10 N on both the linear and nonlinear plants. Each run includes all
+four controller/sensor cases. Force uses N; applied moments use N m.
+
+PNG and editable FIG plots are saved under `figures_new/forward_1N`,
+`forward_5N`, `forward_10N`, `sideways_1N`, `sideways_5N`, and `sideways_10N`.
+Each contains `linear` and `nonlinear` subfolders with response and motor-torque
+plots, including zoom views. The common pole plot is saved once in
+`figures_new/pole_placement`. Each push folder also saves its test configuration.
+
+The batch uses in-memory push overrides and does not edit sf_parameters.m.
+Figures close after saving to avoid opening dozens of windows. Set
+`keepFiguresOpen=true` in test_files.m to keep them open instead.
+
+### Controller performance CSVs
+`test_files` writes `controller_performance.csv` into each plant/test folder,
+plus `figures_new/controller_performance_all.csv` covering all runs. The
+workspace table is `allPerformance`. Both roll and pitch are recorded for
+all four controller/sensor cases.
+
+These are pulse-disturbance recovery tests, not reference-step tests.
+`ExcursionRiseTime_s` measures 10%-90% of the largest signed tilt excursion.
+`PeakTime_s` measures time to the largest absolute tilt. `SettlingTime_s`
+uses +/-2% of that peak about upright, after the peak, with at least 0.5 s
+of remaining in-band observations and a completed run. Peak and settling
+times start at max(0, pushCentre - 3*pushWidth), the Gaussian push-window
+start. `ReverseOvershoot_pct` measures the subsequent opposite-side peak
+relative to the largest excursion, not standard step overshoot.
+
+Standard `StepRiseTime_s` and `StepOvershoot_pct` are NaN because there is
+no nonzero reference step. Missing/unobserved settling is also NaN. Check
+`RunCompleted`, `SettledObserved`, `SimulationEnd_s`, and `FinalTilt_deg`;
+a finite observation window does not prove asymptotic settling, especially
+with sinusoidal sensor errors. Metrics use actual plant tilt, not noisy readings.

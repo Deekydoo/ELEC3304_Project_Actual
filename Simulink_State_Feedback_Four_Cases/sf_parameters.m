@@ -6,7 +6,7 @@ function cfg=sf_parameters
 
 % Experiment: force in N; moment in Nm; angles in degrees where named Deg.
 cfg.test.duration=3;
-cfg.test.pushForce=[0;5;0];
+cfg.test.pushForce=[0;10;0];
 cfg.test.pushMoment=[0;0;0];
 cfg.test.pushCentre=0.2;
 cfg.test.pushWidth=0.02;

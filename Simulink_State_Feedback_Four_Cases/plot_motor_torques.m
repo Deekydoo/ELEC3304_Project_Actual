@@ -62,8 +62,12 @@ for zoom=0:1
         note='Nonlinear model: torque targets are limited before the actuator lag.';
     else, note='Dashed lines show the configured torque caps.'; end
     if zoom, note=[note ' Controlled-response zoom; baseline or caps may leave view.']; end
-    title(layout,{['All eight delivered motor torques - ' plant],note, ...
-        'Total torque includes the standing holding torque.'});
+    caption={['All eight delivered motor torques - ' plant],note, ...
+        'Total torque includes the standing holding torque.'};
+    if isfield(results.controller,'pushForce')
+        caption{end+1}=sprintf('Push: forward %.3g N, sideways %.3g N, vertical %.3g N',results.controller.pushForce);
+    end
+    title(layout,caption);
     exportgraphics(f,fullfile(outputFolder,['motor_torques_' plant suffix '.png']),'Resolution',170);
     savefig(f,fullfile(outputFolder,['motor_torques_' plant suffix '.fig']));
 end

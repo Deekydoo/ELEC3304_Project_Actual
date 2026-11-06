@@ -1,4 +1,4 @@
-function results=run_four_cases(plant,stopTime,showFigures)
+function results=run_four_cases(plant,stopTime,showFigures,configuration,outputFolder)
 % Four cases using the COPIED original plant, controller and observer.
 % results=run_four_cases; or results=run_four_cases('linear').
 % Added disturbances affect sensor readouts ONLY.
@@ -7,6 +7,10 @@ plant=validatestring(plant,{'linear','nonlinear'});
 root=fileparts(mfilename('fullpath')); cd(root);
 addpath(root,fullfile(root,'helpers')); md_expanded_cache;
 cfg=sf_parameters;
+% Optional in-memory settings/output folder for batch tests. Saved defaults
+% and source SLX files are not overwritten.
+if nargin>=4 && ~isempty(configuration), cfg=configuration; end
+if nargin<5 || isempty(outputFolder), outputFolder=fullfile(root,'figures'); end
 if nargin<2 || isempty(stopTime), stopTime=cfg.test.duration; end
 if nargin<3, showFigures=true; end
 
@@ -46,14 +50,15 @@ for j=1:4
     results.(keys{j})=struct('label',labels{j},'time',out.trueState.Time, ...
         'state',x,'anglesDeg',(x(:,[6 5])-r.p.xeq([6 5])')*180/pi, ...
         'pushTime',out.worldPush.Time,'push',rows(out.worldPush), ...
-        'plant',plant,'torqueLimits',r.p.tauMax, ...
+        'plant',plant,'torqueLimits',r.p.tauMax,'pushForce',r.test.pushForce, ...
         'jointCommandTime',out.jointCommand.Time,'jointCommand',rows(out.jointCommand));
     results.(keys{j}).clipping=clipping_times(out,r,plant,j==1);
     clear cleanup;
 end
 if showFigures
-    plot_responses(results,keys,labels,plant,root);
-    plot_motor_torques(results,plant);
+    pushLabel=sprintf('Push: forward %.3g N, sideways %.3g N, vertical %.3g N',cfg.test.pushForce);
+    plot_responses(results,keys,labels,plant,outputFolder,pushLabel);
+    plot_motor_torques(results,plant,outputFolder);
 end
 end
 
@@ -103,8 +108,8 @@ add_line(model,'Sinusoidal sensor error/1','Disturbed measurements/3');
 add_line(model,'Disturbed measurements/1','State observer 50 Hz/1','autorouting','on');
 end
 
-function plot_responses(results,keys,labels,plant,root)
-colors=lines(4); styles={'--','-','-.',':'}; folder=fullfile(root,'figures');
+function plot_responses(results,keys,labels,plant,folder,pushLabel)
+colors=lines(4); styles={'--','-','-.',':'};
 if ~exist(folder,'dir'), mkdir(folder); end
 for zoom=false:true
     if zoom, suffix='_zoom'; nrows=2; else, suffix=''; nrows=4; end
@@ -132,8 +137,8 @@ for zoom=false:true
         nexttile; plot(a.pushTime,a.push(:,2),'k','LineWidth',1.4);
         xlabel('Time (s)'); ylabel('Sideways force (N)'); title('Sideways component of the same physical push'); grid on;
     end
-    if zoom, sgtitle(['Four cases - ' plant ' - zoom (uncontrolled curve may leave view)']);
-    else, sgtitle(['Four cases - ' plant ' - actual plant response']); end
+    if zoom, sgtitle({['Four cases - ' plant ' - zoom (uncontrolled curve may leave view)'],pushLabel});
+    else, sgtitle({['Four cases - ' plant ' - actual plant response'],pushLabel}); end
     exportgraphics(f,fullfile(folder,['four_cases_' plant suffix '.png']),'Resolution',160);
     savefig(f,fullfile(folder,['four_cases_' plant suffix '.fig']));
 end

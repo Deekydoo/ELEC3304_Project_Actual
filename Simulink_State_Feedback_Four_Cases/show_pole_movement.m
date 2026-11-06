@@ -1,4 +1,4 @@
-function details=show_pole_movement
+function details=show_pole_movement(outputFolder)
 % SHOW_POLE_MOVEMENT Visualise the existing sampled controller's pole placement.
 % Run this function from MATLAB; it opens one figure and saves PNG/FIG copies.
 % No simulation, retuning, plant changes or controller changes are performed.
@@ -94,7 +94,9 @@ text(.98,radius(end),sprintf('  %.6f',radius(end)),'HorizontalAlignment','right'
 sgtitle({'The original plant is controllable; state feedback stabilises it', ...
     'Red trajectory starts at the unstable mode. Other slow modes move too; fast stable modes are retained.'});
 
-folder=fullfile(root,'figures'); if ~exist(folder,'dir'), mkdir(folder); end
+folder=fullfile(root,'figures');
+if nargin>=1 && ~isempty(outputFolder), folder=outputFolder; end
+if ~exist(folder,'dir'), mkdir(folder); end
 exportgraphics(f,fullfile(folder,'pole_movement.png'),'Resolution',180);
 savefig(f,fullfile(folder,'pole_movement.fig'));
 writetable(movement,fullfile(folder,'pole_movement.csv'));
